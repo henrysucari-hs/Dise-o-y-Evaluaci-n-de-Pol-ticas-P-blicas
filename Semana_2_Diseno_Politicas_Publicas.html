@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Semana 2 · Diseño y Evaluación de Políticas Públicas</title>
+<style>
+:root{
+  --brand:#163b65;--brand2:#245d91;--accent:#d97706;--ink:#172033;
+  --muted:#64748b;--bg:#f4f7fb;--card:#fff;--line:#dbe3ee;
+  --soft:#eef5fb;--good:#15803d;--bad:#b91c1c;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.58}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar-inner{max-width:1400px;margin:auto;padding:13px 22px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.brand{font-weight:900;color:var(--brand);font-size:15px}.top-actions{display:flex;gap:8px;align-items:center}
+button,.btn{border:0;border-radius:10px;padding:9px 13px;font-weight:800;cursor:pointer}
+.btn-primary{background:var(--brand);color:white}.btn-light{background:white;border:1px solid var(--line);color:var(--brand)}
+.progress{height:4px;background:#e8edf4}.progress>div{height:100%;width:0;background:var(--accent);transition:.2s}
+.layout{max-width:1400px;margin:auto;display:grid;grid-template-columns:245px 1fr;gap:24px;padding:22px}
+.side{position:sticky;top:72px;height:calc(100vh - 92px);overflow:auto;background:white;border:1px solid var(--line);border-radius:18px;padding:15px}
+.side h3{margin:5px 8px 12px;color:var(--brand);font-size:14px;text-transform:uppercase;letter-spacing:.06em}
+.side a{display:block;text-decoration:none;color:#536176;padding:8px 10px;border-radius:9px;font-size:13px}
+.side a:hover,.side a.active{background:var(--soft);color:var(--brand);font-weight:800}
+main{min-width:0}.hero{background:linear-gradient(135deg,#102f52,#245d91);color:white;border-radius:26px;padding:42px 44px;margin-bottom:20px;box-shadow:0 18px 45px rgba(22,59,101,.18)}
+.hero .eyebrow{font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.12em;opacity:.8}
+.hero h1{font-size:clamp(32px,5vw,58px);line-height:1.04;margin:10px 0 14px;max-width:850px}
+.hero p{max-width:800px;font-size:18px;opacity:.92;margin:0}
+.hero-grid{display:grid;grid-template-columns:1fr 280px;gap:25px;align-items:end}
+.hero-box{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:18px;padding:18px}
+.hero-box b{display:block;font-size:12px;text-transform:uppercase;opacity:.7}.hero-box span{font-size:17px;font-weight:800}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px;margin-bottom:20px;box-shadow:0 8px 24px rgba(15,23,42,.045)}
+.section-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:15px;margin-bottom:20px}
+h2{font-size:27px;line-height:1.2;margin:0;color:var(--brand)} h3{color:var(--brand);margin-top:20px}
+.sub{color:var(--muted);margin:5px 0 0}.pill{background:#eaf1f8;color:var(--brand);padding:6px 10px;border-radius:999px;font-size:12px;font-weight:900;white-space:nowrap}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.mini{border:1px solid var(--line);border-radius:15px;padding:17px;background:#fff}.mini h3{margin:0 0 6px;font-size:17px}.mini p{margin:0;color:#536176;font-size:14px}
+.question{background:#fff8eb;border:1px solid #f4cf91;border-radius:16px;padding:19px}.question strong{color:#9a5a00}
+.feature{border-left:5px solid var(--accent);background:#fff8ed;padding:17px 20px;border-radius:0 14px 14px 0}
+.criteria{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.criteria .mini{border-top:4px solid var(--brand2)}
+.term{border:1px solid var(--line);border-radius:17px;padding:20px;background:linear-gradient(180deg,#fff,#f8fbff)}.term .word{font-size:24px;font-weight:950;color:var(--brand);margin-bottom:5px}.term p{margin:0;color:#536176}
+.definition{background:var(--soft);border:1px solid #cfe0ef;border-radius:16px;padding:20px;font-size:17px}
+.equation{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin:20px 0;font-weight:900}
+.eq{background:white;border:2px solid #d6e2ee;border-radius:12px;padding:12px 16px}.plus{font-size:24px;color:var(--accent)}
+.timeline{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:18px}
+.time{position:relative;background:white;border:1px solid var(--line);border-radius:14px;padding:16px}.time b{color:var(--accent);font-size:13px}.time strong{display:block;color:var(--brand);margin:4px 0}.time p{margin:0;font-size:13px;color:#5b687a}
+.step{cursor:pointer}.step:hover{transform:translateY(-2px);transition:.15s}.step-detail{display:none;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:13px;color:#526176}
+.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;font-size:14px}.table th,.table td{padding:11px;border:1px solid var(--line);vertical-align:top}.table th{background:#edf4fa;color:var(--brand);text-align:left}
+.activity{background:#f8fafc;border:1px dashed #b8c5d6;border-radius:17px;padding:20px}
+textarea,input{font:inherit}.input{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:10px;margin-top:7px}
+.quiz-q{border:1px solid var(--line);border-radius:15px;padding:17px;margin:12px 0;background:white}.quiz-q.correct{border-color:#86efac;background:#f0fdf4}.quiz-q.wrong{border-color:#fecaca;background:#fff5f5}
+.quiz-q p{font-weight:850;margin-top:0}.option{display:block;padding:8px 9px;margin:5px 0;border-radius:9px;cursor:pointer}.option:hover{background:#f8fafc}.feedback{font-size:13px;margin-top:8px;font-weight:750;display:none}
+.result{font-size:21px;font-weight:950;color:var(--brand);margin-left:8px}
+footer{max-width:1400px;margin:0 auto 35px;padding:0 22px;color:var(--muted);font-size:12px}
+@media(max-width:1000px){.layout{grid-template-columns:1fr}.side{position:relative;top:0;height:auto;display:flex;overflow:auto;white-space:nowrap}.side h3{display:none}.side a{display:inline-block}.hero-grid{grid-template-columns:1fr}.grid3,.criteria,.timeline{grid-template-columns:1fr 1fr}}
+@media(max-width:650px){.layout{padding:12px}.hero{padding:28px 24px}.card{padding:20px}.grid2,.grid3,.criteria,.timeline{grid-template-columns:1fr}.top-actions .btn-light{display:none}}
+@media print{.topbar,.side,.top-actions,.btn,.quiz-actions{display:none!important}.layout{display:block;padding:0}.card,.hero{box-shadow:none;break-inside:avoid}.hero{color:#111;background:white;border:1px solid #bbb}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">FIE–UNA · Diseño y Evaluación de Políticas Públicas</div>
+    <div class="top-actions">
+      <button class="btn btn-light" onclick="window.print()">Imprimir</button>
+      <button class="btn btn-primary" onclick="document.documentElement.requestFullscreen?.()">Pantalla completa</button>
+    </div>
+  </div>
+  <div class="progress"><div id="progressBar"></div></div>
+</header>
+
+<div class="layout">
+<aside class="side" id="sideNav">
+  <h3>Contenido</h3>
+  <a href="#inicio">Inicio</a>
+  <a href="#pregunta">Pregunta inicial</a>
+  <a href="#problema">Problema público</a>
+  <a href="#identificar">Identificación</a>
+  <a href="#caracteristicas">Características</a>
+  <a href="#tipos">Tipos</a>
+  <a href="#politicas">Políticas públicas</a>
+  <a href="#triple">Politics · Polity · Policy</a>
+  <a href="#relacion">Policy y Politics</a>
+  <a href="#definiciones">Definiciones</a>
+  <a href="#operacional">Definición operacional</a>
+  <a href="#criterios">Criterios</a>
+  <a href="#app">Análisis de PP</a>
+  <a href="#siglo">Siglo XX → APP</a>
+  <a href="#origen">Policy Sciences</a>
+  <a href="#lasswell">Lasswell</a>
+  <a href="#latam">América Latina</a>
+  <a href="#actividad">Actividad</a>
+  <a href="#evaluacion">Evaluación</a>
+</aside>
+
+<main>
+<section class="hero" id="inicio">
+  <div class="hero-grid">
+    <div>
+      <div class="eyebrow">Semana 2 · Clase interactiva</div>
+      <h1>Diseño y Evaluación de Políticas Públicas</h1>
+      <p>De los problemas públicos al análisis de las intervenciones del Estado.</p>
+    </div>
+    <div class="hero-box">
+      <b>Docente</b><span>Henry Aldo Sucari Turpo</span><br><br>
+      <b>Institución</b><span>Universidad Nacional del Altiplano · Facultad de Ingeniería Económica</span>
+    </div>
+  </div>
+</section>
+
+<section class="card" id="pregunta">
+<div class="section-head"><div><h2>Pregunta de inicio</h2><p class="sub">Antes de entrar al concepto, pensemos en el proceso de decisión pública.</p></div><span class="pill">Reflexión</span></div>
+<div class="question"><strong>¿Por qué algunos problemas públicos se convierten en políticas públicas y otros no?</strong><p>Responda con sus propias palabras. No existen respuestas correctas o incorrectas.</p>
+<textarea class="input" rows="4" placeholder="Escriba aquí su idea inicial..."></textarea></div>
+</section>
+
+<section class="card" id="problema">
+<div class="section-head"><div><h2>¿Qué es un problema público?</h2><p class="sub">Una situación problemática debe adquirir relevancia en el ámbito público.</p></div><span class="pill">Concepto clave</span></div>
+<div class="definition"><b>Un problema público</b> es una situación que afecta negativamente el bienestar de una colectividad, o que amenaza con afectarlo, y que es reconocida como un asunto que requiere atención e intervención del Estado.</div>
+<div class="grid2" style="margin-top:16px">
+  <div class="mini"><h3>01 · Afecta a una colectividad</h3><p>No se limita a una situación individual.</p></div>
+  <div class="mini"><h3>02 · Es socialmente reconocido</h3><p>La situación debe ser percibida y reconocida como problemática.</p></div>
+  <div class="mini"><h3>03 · Genera una demanda de acción</h3><p>Existe la expectativa de que “algo debe hacerse”.</p></div>
+  <div class="mini"><h3>04 · Requiere intervención pública</h3><p>Se considera que el Estado tiene responsabilidad o capacidad para intervenir.</p></div>
+</div>
+</section>
+
+<section class="card" id="identificar">
+<div class="section-head"><div><h2>¿Todo problema es un problema público?</h2><p class="sub">Analice cada situación y decida si podría convertirse en un problema público.</p></div><span class="pill">Actividad</span></div>
+<div class="grid2">
+  <div class="mini"><b>A.</b> Numerosos hogares de una provincia destinan una proporción elevada de sus ingresos al alquiler y tienen dificultades para acceder a una vivienda adecuada.</div>
+  <div class="mini"><b>B.</b> En un distrito aumenta sostenidamente la delincuencia y la población demanda mayores medidas de seguridad.</div>
+  <div class="mini"><b>C.</b> Una estudiante tiene dificultades recurrentes para comprender determinados contenidos de proyectos de inversión.</div>
+  <div class="mini"><b>D.</b> Varias comunidades rurales presentan acceso limitado y discontinuo a agua potable, afectando sus condiciones de vida y salud.</div>
+  <div class="mini"><b>E.</b> Una persona pierde su empleo por el cierre de la empresa donde trabajaba.</div>
+  <div class="mini"><b>F.</b> Una proporción importante de jóvenes no accede a empleos formales y enfrenta desempleo o informalidad prolongada.</div>
+  <div class="mini"><b>G.</b> La disposición inadecuada de relaves mineros genera riesgo de contaminación de agua y suelos, afectando comunidades y actividades económicas.</div>
+</div>
+<div class="feature" style="margin-top:16px"><b>Para analizar:</b> ¿Qué elementos deberían cumplirse para considerar una situación como problema público?</div>
+</section>
+
+<section class="card" id="caracteristicas">
+<div class="section-head"><div><h2>Características de los problemas públicos</h2><p class="sub">No son situaciones aisladas: presentan complejidad y dimensiones técnicas y políticas.</p></div><span class="pill">5 características</span></div>
+<div class="grid3">
+  <div class="mini step" data-detail="d1"><h3>Interdependencia</h3><p>Un problema puede relacionarse con otros y generar efectos en diferentes ámbitos.</p><div class="step-detail" id="d1">Ejemplo: empleo, educación, ingresos y pobreza pueden estar conectados.</div></div>
+  <div class="mini step" data-detail="d2"><h3>Subjetividad</h3><p>Su reconocimiento depende de cómo la sociedad interpreta y valora una situación.</p><div class="step-detail" id="d2">No basta con que exista una condición: debe adquirir significado social y político.</div></div>
+  <div class="mini step" data-detail="d3"><h3>Artificialidad y problematización</h3><p>Una condición social no se convierte automáticamente en problema público.</p><div class="step-detail" id="d3">Existe un proceso mediante el cual una situación es problematizada y adquiere relevancia pública.</div></div>
+  <div class="mini step" data-detail="d4"><h3>Carácter dinámico</h3><p>Los problemas cambian y evolucionan con el tiempo.</p><div class="step-detail" id="d4">También cambian las alternativas y soluciones planteadas.</div></div>
+  <div class="mini step" data-detail="d5"><h3>Doble dimensión</h3><p>Técnica y política.</p><div class="step-detail" id="d5">Se requieren herramientas analíticas, pero también intervienen intereses, poder y posiciones diferentes.</div></div>
+</div>
+</section>
+
+<section class="card" id="tipos">
+<div class="section-head"><div><h2>Tipos de problemas públicos</h2><p class="sub">La clasificación ayuda a comprender su estructura y el nivel de consenso existente.</p></div><span class="pill">Clasificación</span></div>
+<div class="table-wrap"><table class="table">
+<tr><th>Dimensión</th><th>Tipo</th><th>Características</th><th>Ejemplo del material</th></tr>
+<tr><td rowspan="2">Por su estructura</td><td><b>Bien estructurados</b></td><td>Pocos decisores, alternativas limitadas, alto consenso en valores, resultados certeros y probabilidades calculables.</td><td>Construcción de un acueducto; atención de una epidemia.</td></tr>
+<tr><td><b>Débilmente estructurados</b></td><td>Múltiples actores, valores en conflicto, alternativas ilimitadas, resultados inciertos y probabilidades incalculables.</td><td>Pobreza; aborto.</td></tr>
+<tr><td rowspan="3">Por nivel de consenso</td><td><b>Estructurados</b></td><td>Consenso sobre cuál es el problema y sobre cómo solucionarlo.</td><td>Construcción de escuelas o puentes.</td></tr>
+<tr><td><b>Moderadamente estructurados</b></td><td>Hay consenso en el “qué” pero no en el “cómo”, o viceversa.</td><td>Desempleo; proliferación de armas.</td></tr>
+<tr><td><b>No estructurados</b></td><td>No existe consenso ni sobre la definición ni sobre la forma de enfrentarlo.</td><td>Movilidad urbana; espacio público.</td></tr>
+</table></div>
+</section>
+
+<section class="card" id="politicas">
+<div class="section-head"><div><h2>¿Qué son las políticas públicas?</h2><p class="sub">Primero debemos diferenciar las distintas dimensiones de la política.</p></div><span class="pill">Policy</span></div>
+<p>En español, la palabra “política” puede referirse a diferentes conceptos que en la literatura anglosajona se expresan mediante términos distintos:</p>
+<div class="grid3" id="triple">
+  <div class="term"><div class="word">Politics</div><p>Actividad política, competencia, poder e intereses.</p></div>
+  <div class="term"><div class="word">Polity</div><p>Instituciones y reglas en las que se organiza el poder político.</p></div>
+  <div class="term"><div class="word">Policy</div><p>Curso de acción pública orientado a responder a situaciones consideradas problemáticas.</p></div>
+</div>
+<div class="question" style="margin-top:17px"><strong>Pregunta:</strong> ¿Cuando hablamos de “política”, estamos hablando siempre de lo mismo?</div>
+</section>
+
+<section class="card" id="relacion">
+<div class="section-head"><div><h2>Policy y Politics: una relación inseparable</h2><p class="sub">La política pública tiene una dimensión técnica, pero se desarrolla dentro de relaciones de poder.</p></div><span class="pill">Relación</span></div>
+<div class="timeline">
+  <div class="time"><b>1950–1960</b><strong>Policy como dependiente</strong><p>Las políticas públicas eran interpretadas principalmente como variables dependientes de la actividad política.</p></div>
+  <div class="time"><b>Supuesto</b><strong>Juego político</strong><p>Se asumía que las políticas eran resultado directo del juego político.</p></div>
+  <div class="time"><b>1970</b><strong>Objeto autónomo</strong><p>La acción pública comenzó a consolidarse como objeto de estudio autónomo.</p></div>
+  <div class="time"><b>En la práctica</b><strong>No separación total</strong><p>Policy y Politics no pueden separarse completamente.</p></div>
+  <div class="time"><b>Idea central</b><strong>Hacer policy implica politics</strong><p>Las decisiones públicas ocurren dentro de relaciones de poder e intereses.</p></div>
+</div>
+<h3>¿Qué pueden buscar los tomadores de decisiones?</h3>
+<div class="grid3">
+<div class="mini">Obtener reconocimiento por las iniciativas públicas.</div>
+<div class="mini">Recibir méritos y créditos políticos.</div>
+<div class="mini">Fortalecer su posición.</div>
+<div class="mini">Asegurar su ascenso político.</div>
+<div class="mini">Construir un legado político.</div>
+</div>
+</section>
+
+<section class="card" id="definiciones">
+<div class="section-head"><div><h2>Multiplicidad de definiciones de políticas públicas</h2><p class="sub">No existe una única definición universal.</p></div><span class="pill">Perspectivas</span></div>
+<div class="grid2">
+<div class="mini"><h3>Thomas Dye</h3><p>“Todo lo que el gobierno hace o deja de hacer”.</p></div>
+<div class="mini"><h3>Mény y Thoenig</h3><p>Acción de las autoridades en el seno de la sociedad o programa de acción de una autoridad pública.</p></div>
+<div class="mini"><h3>Dubnick y Bardes</h3><p>Acciones u omisiones gubernamentales frente a un problema.</p></div>
+<div class="mini"><h3>Kraft y Furlong</h3><p>Curso de acción o inacción gubernamental.</p></div>
+<div class="mini"><h3>Anderson</h3><p>Orientación deliberada para tratar un asunto de interés.</p></div>
+<div class="mini"><h3>Orientación pragmática</h3><p>Se concentra en la respuesta del gobierno frente a una situación problemática.</p></div>
+</div>
+</section>
+
+<section class="card">
+<div class="section-head"><div><h2>Otras perspectivas</h2><p class="sub">Orientación normativa o positiva.</p></div></div>
+<div class="grid2">
+<div class="mini"><h3>Se concentra en</h3><p>Procedimientos, coherencia de las decisiones y objetivos explícitos.</p></div>
+<div class="mini"><h3>Representantes mencionados</h3><p>Hogwood, Elau y Prewitt, Muller y Surel, Larrue, Velásquez y Jorge Iván Cuervo.</p></div>
+</div>
+<div class="feature" style="margin-top:16px"><b>Jorge Iván Cuervo:</b> entiende la política pública como acción del Estado orientada por el gobierno para responder de manera <b>coherente, legítima y sostenible</b> a demandas sociales y mandatos constitucionales.</div>
+</section>
+
+<section class="card" id="operacional">
+<div class="section-head"><div><h2>Una definición operacional de política pública</h2><p class="sub">Una definición útil para trabajar el concepto de manera aplicada.</p></div><span class="pill">Definición operacional</span></div>
+<div class="definition">La política pública es el conjunto de acciones implementadas en el marco de planes y programas gubernamentales diseñados por ejercicios analíticos de algún grado de formalidad, donde el conocimiento, aunado a la voluntad política y los recursos disponibles, viabilizan el logro de objetivos sociales.</div>
+<div class="equation"><div class="eq">CONOCIMIENTO</div><div class="plus">+</div><div class="eq">VOLUNTAD POLÍTICA</div><div class="plus">+</div><div class="eq">RECURSOS DISPONIBLES</div><div class="plus">=</div><div class="eq">OBJETIVOS SOCIALES</div></div>
+</section>
+
+<section class="card" id="criterios">
+<div class="section-head"><div><h2>¿Cómo identificar una política pública?</h2><p class="sub">Tres criterios permiten distinguirla de una acción aislada.</p></div><span class="pill">3 criterios</span></div>
+<div class="criteria">
+<div class="mini"><h3>01 · Procedimental</h3><p>Debe ser resultado de un conjunto articulado de decisiones orientadas hacia un propósito específico. Incluso una decisión consistente de no hacer nada puede constituir una política pública.</p></div>
+<div class="mini"><h3>02 · Orgánico</h3><p>Debe provenir de decisiones y acciones adoptadas por actores públicos, aunque en su desarrollo puedan participar particulares.</p></div>
+<div class="mini"><h3>03 · Material</h3><p>Debe involucrar objetivos, asignación de recursos y producción de resultados materiales o simbólicos.</p></div>
+</div>
+</section>
+
+<section class="card" id="app">
+<div class="section-head"><div><h2>¿Qué es el Análisis de Políticas Públicas?</h2><p class="sub">El APP estudia las intervenciones públicas y sus diferentes momentos.</p></div><span class="pill">APP</span></div>
+<div class="definition">El <b>Análisis de Políticas Públicas (APP)</b> es la disciplina y el “arte” orientado al estudio de las intervenciones públicas.</div>
+<div class="grid3" style="margin-top:16px">
+<div class="mini"><h3>Surgimiento</h3><p>Condiciones relacionadas con el surgimiento de las políticas públicas.</p></div>
+<div class="mini"><h3>Evolución</h3><p>Evolución de las intervenciones públicas.</p></div>
+<div class="mini"><h3>Formulación</h3><p>Formulación de políticas.</p></div>
+<div class="mini"><h3>Implementación</h3><p>Implementación de las decisiones públicas.</p></div>
+<div class="mini"><h3>Evaluación</h3><p>Evaluación de las políticas y sus resultados.</p></div>
+<div class="mini"><h3>Pregunta central</h3><p>¿Cómo surgen, se diseñan, se implementan y se evalúan las intervenciones del Estado?</p></div>
+</div>
+</section>
+
+<section class="card" id="siglo">
+<div class="section-head"><div><h2>Del siglo XX al surgimiento del APP</h2><p class="sub">Una mirada histórica al proceso de consolidación del análisis de políticas públicas.</p></div><span class="pill">Historia</span></div>
+<div class="timeline">
+<div class="time"><b>Siglo XX</b><strong>Institucionalización</strong><p>Organización e institucionalización de los estudios sociales en grupos de reflexión estratégica.</p></div>
+<div class="time"><b>Posguerra</b><strong>Planificación</strong><p>Tras la Segunda Guerra Mundial, la planificación se generalizó. El Plan Marshall es un ejemplo representativo.</p></div>
+<div class="time"><b>Posguerra</b><strong>Estado de Bienestar</strong><p>El crecimiento del intervencionismo estatal impulsó el análisis de políticas públicas.</p></div>
+<div class="time"><b>Periodo de expansión</b><strong>Interdisciplinariedad</strong><p>Se incorporaron métodos y procesos de ingeniería, matemáticas, gestión y psicología.</p></div>
+<div class="time"><b>Década de 1950</b><strong>EE. UU.</strong><p>Politólogos, sociólogos y economistas utilizaron métodos de investigación para contribuir al funcionamiento del gobierno y a políticas eficaces y eficientes.</p></div>
+</div>
+</section>
+
+<section class="card" id="origen">
+<div class="section-head"><div><h2>El origen de las Policy Sciences</h2><p class="sub">Hitos académicos y técnicos señalados en la sesión.</p></div><span class="pill">Policy Sciences</span></div>
+<div class="grid3">
+<div class="mini"><h3>1951</h3><p>Daniel Lerner y Harold Lasswell.</p></div>
+<div class="mini"><h3>1971</h3><p>Harold Lasswell.</p></div>
+<div class="mini"><h3>1971</h3><p>Yehezkel Dror.</p></div>
+</div>
+<div class="feature" style="margin-top:16px"><b>Dimensión técnica y aplicada:</b> los experimentos desarrollados en el Ministerio de Defensa de Estados Unidos mediante el <b>PPBS — Program, Planning and Budgeting System</b>, impulsados desde la década de 1950 con respaldo de la Rand Corporation.</div>
+</section>
+
+<section class="card" id="lasswell">
+<div class="section-head"><div><h2>La propuesta de Lasswell</h2><p class="sub">El material identifica cuatro características fundamentales de las Policy Sciences.</p></div><span class="pill">Lasswell</span></div>
+<div class="question">En la presentación original, esta diapositiva funciona como punto de desarrollo. <b>Puede usarla para explicar oralmente las cuatro características de Lasswell</b> y relacionarlas con el carácter aplicado e interdisciplinario del análisis de políticas.</div>
+</section>
+
+<section class="card" id="latam">
+<div class="section-head"><div><h2>El APP en América Latina</h2><p class="sub">El análisis de políticas públicas adquiere relevancia en un contexto regional particular.</p></div><span class="pill">América Latina</span></div>
+<div class="grid3">
+<div class="mini"><h3>Medición y evaluación</h3><p>Exigencias de medición de impacto y evaluación de proyectos por organismos internacionales.</p></div>
+<div class="mini"><h3>Reformas del Estado</h3><p>Transformaciones institucionales y administrativas.</p></div>
+<div class="mini"><h3>Nueva Gestión Pública</h3><p>Mayor atención a gestión, resultados y desempeño.</p></div>
+<div class="mini"><h3>Investigación</h3><p>Creación de centros de investigación.</p></div>
+<div class="mini"><h3>Observatorios</h3><p>Desarrollo de observatorios.</p></div>
+<div class="mini"><h3>Enfoque propio</h3><p>Considerar particularidades institucionales, sociales y políticas de América Latina.</p></div>
+</div>
+<div class="feature" style="margin-top:16px"><b>Desafío:</b> no se trata simplemente de trasladar modelos desarrollados en Estados Unidos o Europa, sino de desarrollar una reflexión que considere las particularidades de la región.</div>
+</section>
+
+<section class="card" id="actividad">
+<div class="section-head"><div><h2>Actividad de aplicación</h2><p class="sub">Construya una lectura rápida de un problema público.</p></div><span class="pill">Trabajo en clase</span></div>
+<div class="activity">
+<div class="grid2">
+<label><b>Problema seleccionado</b><input class="input" id="actProblema" placeholder="Ej.: desempleo juvenil"></label>
+<label><b>¿A quién afecta?</b><input class="input" id="actAfecta" placeholder="Ej.: jóvenes de una región"></label>
+<label><b>¿Existe reconocimiento social?</b><input class="input" id="actReconoce" placeholder="Sí / No / Explique"></label>
+<label><b>¿Existe demanda de acción?</b><input class="input" id="actDemanda" placeholder="Sí / No / Explique"></label>
+</div>
+<label style="display:block;margin-top:14px"><b>¿Por qué requeriría intervención pública?</b><textarea class="input" id="actEstado" rows="3" placeholder="Explique brevemente..."></textarea></label>
+<button class="btn btn-primary" style="margin-top:14px" onclick="generarDiagnostico()">Generar diagnóstico</button>
+<div id="diagnostico" class="definition" style="margin-top:14px;display:none"></div>
+</div>
+</section>
+
+<section class="card" id="evaluacion">
+<div class="section-head"><div><h2>Evaluación rápida</h2><p class="sub">10 preguntas · 2 puntos por pregunta · Nota máxima: 20.</p></div><span class="pill">Autoevaluación</span></div>
+<div id="quizContainer"></div>
+<div class="quiz-actions" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:15px">
+<button class="btn btn-primary" onclick="calificar()">Calificar</button>
+<button class="btn btn-light" onclick="reiniciarQuiz()">Reiniciar</button>
+<span class="result" id="quizResult"></span>
+</div>
+</section>
+</main>
+</div>
+
+<footer>
+Material web elaborado a partir de la presentación “Semana 2. Diseño de Políticas Públicas”. FIE–UNA · Diseño y Evaluación de Políticas Públicas.
+</footer>
+
+<script>
+const sections=[...document.querySelectorAll('main section')];
+const navLinks=[...document.querySelectorAll('#sideNav a')];
+function updateScroll(){
+  const doc=document.documentElement,max=doc.scrollHeight-doc.clientHeight;
+  document.getElementById('progressBar').style.width=(max?doc.scrollTop/max*100:0)+'%';
+  let current=sections[0].id;
+  sections.forEach(s=>{if(s.getBoundingClientRect().top<150)current=s.id});
+  navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+current));
+}
+window.addEventListener('scroll',updateScroll);updateScroll();
+
+document.querySelectorAll('.step').forEach(step=>step.addEventListener('click',()=>{
+  const d=document.getElementById(step.dataset.detail);
+  const open=d.style.display==='block';
+  document.querySelectorAll('.step-detail').forEach(x=>x.style.display='none');
+  if(!open)d.style.display='block';
+}));
+
+function generarDiagnostico(){
+  const p=document.getElementById('actProblema').value.trim();
+  const a=document.getElementById('actAfecta').value.trim();
+  const r=document.getElementById('actReconoce').value.trim();
+  const d=document.getElementById('actDemanda').value.trim();
+  const e=document.getElementById('actEstado').value.trim();
+  const box=document.getElementById('diagnostico');
+  box.style.display='block';
+  if(!p){
+    box.innerHTML='<b>Complete primero el problema seleccionado.</b>';
+    return;
+  }
+  box.innerHTML=`<b>Diagnóstico preliminar</b><br>
+  El problema identificado es <b>${p}</b>${a?`, afecta a <b>${a}</b>`:''}.
+  ${r?`Se ha registrado como reconocimiento social: <b>${r}</b>.`:''}
+  ${d?` La demanda de acción indicada es: <b>${d}</b>.`:''}
+  ${e?` Finalmente, la justificación de intervención pública es: <b>${e}</b>.`:''}
+  <br><br><span style="color:#64748b">Revise si cumple los cuatro elementos: afecta a una colectividad, es socialmente reconocido, genera demanda de acción y requiere intervención pública.</span>`;
+}
+
+const quiz=[
+{q:'1. ¿Cuál de estos elementos caracteriza a un problema público?',o:['Que afecte únicamente a una persona','Que afecte a una colectividad y sea reconocido como asunto que requiere atención pública','Que no genere demanda de acción'],a:1,e:'El material destaca colectividad, reconocimiento social, demanda de acción e intervención pública.'},
+{q:'2. ¿Qué significa que un problema público tenga una dimensión subjetiva?',o:['Que no existe realmente','Que su reconocimiento depende de cómo una sociedad interpreta y valora una situación','Que solo puede medirse con una encuesta'],a:1,e:'La subjetividad se refiere a la interpretación y valoración social de la situación.'},
+{q:'3. ¿Cuál es un problema débilmente estructurado?',o:['Uno con alternativas limitadas y resultados certeros','Uno con múltiples actores, valores en conflicto y resultados inciertos','Uno donde existe consenso total'],a:1,e:'Los problemas complejos presentan múltiples actores, conflicto de valores y alta incertidumbre.'},
+{q:'4. En la distinción Politics–Polity–Policy, ¿a qué corresponde la política pública?',o:['Politics','Polity','Policy'],a:2,e:'La presentación señala que política pública corresponde específicamente al concepto de policy.'},
+{q:'5. ¿Por qué Policy y Politics no pueden separarse completamente en la práctica?',o:['Porque hacer policy implica inevitablemente hacer politics','Porque son exactamente el mismo concepto','Porque las políticas no tienen dimensión técnica'],a:0,e:'Las decisiones públicas se desarrollan dentro de relaciones de poder e intereses políticos.'},
+{q:'6. Según Thomas Dye, una política pública comprende:',o:['Solo las leyes aprobadas','Todo lo que el gobierno hace o deja de hacer','Solo los programas sociales'],a:1,e:'Es la formulación presentada en la diapositiva sobre multiplicidad de definiciones.'},
+{q:'7. ¿Qué tres elementos destaca la definición operacional?',o:['Conocimiento + voluntad política + recursos disponibles','Poder + elecciones + partidos','Problema + encuesta + presupuesto'],a:0,e:'Estos elementos viabilizan el logro de objetivos sociales.'},
+{q:'8. ¿Cuál es un criterio para identificar una política pública?',o:['Criterio procedimental','Criterio exclusivamente individual','Criterio privado'],a:0,e:'El material presenta criterios procedimental, orgánico y material.'},
+{q:'9. ¿Qué estudia el Análisis de Políticas Públicas?',o:['Únicamente la votación de los políticos','El surgimiento, evolución, formulación, implementación y evaluación de intervenciones públicas','Solo el presupuesto público'],a:1,e:'El APP estudia diferentes momentos de las intervenciones del Estado.'},
+{q:'10. ¿Cuál es un desafío del APP en América Latina?',o:['Trasladar modelos externos sin adaptación','Desarrollar una reflexión que considere particularidades institucionales, sociales y políticas de la región','Eliminar el análisis interdisciplinario'],a:1,e:'El material plantea la necesidad de un enfoque latinoamericano propio.'}
+];
+
+function renderQuiz(){
+ const c=document.getElementById('quizContainer'); c.innerHTML='';
+ quiz.forEach((item,i)=>{
+  const div=document.createElement('div');div.className='quiz-q';div.id='q'+i;
+  div.innerHTML=`<p>${item.q}</p>${item.o.map((x,j)=>`<label class="option"><input type="radio" name="q${i}" value="${j}"> ${x}</label>`).join('')}<div class="feedback" id="f${i}"></div>`;
+  c.appendChild(div);
+ });
+}
+function calificar(){
+ let correctas=0,respondidas=0;
+ quiz.forEach((item,i)=>{
+  const box=document.getElementById('q'+i),fb=document.getElementById('f'+i),sel=document.querySelector(`input[name=q${i}]:checked`);
+  box.classList.remove('correct','wrong');fb.style.display='block';
+  if(!sel){fb.textContent='Sin responder. 0/2 puntos.';fb.style.color='#9a6700';return}
+  respondidas++;
+  if(+sel.value===item.a){correctas++;box.classList.add('correct');fb.textContent='✓ Correcto. 2/2 puntos. '+item.e;fb.style.color='var(--good)'}
+  else{box.classList.add('wrong');fb.textContent='✗ Incorrecto. 0/2 puntos. '+item.e;fb.style.color='var(--bad)'}
+ });
+ document.getElementById('quizResult').textContent=`Nota: ${correctas*2}/20 · Correctas: ${correctas}/10 · Respondidas: ${respondidas}/10`;
+}
+function reiniciarQuiz(){
+ document.querySelectorAll('#quizContainer input').forEach(x=>x.checked=false);
+ document.querySelectorAll('.quiz-q').forEach(x=>x.classList.remove('correct','wrong'));
+ document.querySelectorAll('.feedback').forEach(x=>x.style.display='none');
+ document.getElementById('quizResult').textContent='';
+}
+renderQuiz();
+</script>
+</body>
+</html>
